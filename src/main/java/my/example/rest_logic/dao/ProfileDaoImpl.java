@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
 
 import my.example.rest_logic.entity.Profile;
+import my.example.rest_logic.errors.ProfileNotFoundException;
 
 @Repository
 public class ProfileDaoImpl implements ProfileDao {
@@ -40,7 +41,8 @@ public class ProfileDaoImpl implements ProfileDao {
 				return profile;
 			}
 		}
-		return null;
+
+		throw new ProfileNotFoundException("Profile at " + id + " NOT FOUND");
 	}
 
 	@Override
@@ -72,16 +74,12 @@ public class ProfileDaoImpl implements ProfileDao {
 		Profile temp=null;
 		for(Profile p: profiles){
 			if(p.getId() == profile.getId()){
+				System.out.println("===>>>profile to update: " + p);
 				p.setUserName(profile.getUserName());
 				p.setStatus(profile.getStatus());
 				temp = p;
 				break;
 			}
-		}
-		
-		if(temp == null){
-			//TODO throw custom exception about update error
-			temp = new Profile(0, "UPDATE ERROR", "Error updating profile " + profile);
 		}
 
 		return temp;
@@ -101,10 +99,6 @@ public class ProfileDaoImpl implements ProfileDao {
 			}
 		}
 		
-		if(temp == null){
-			//TODO throw custom exception about update error
-			temp = new Profile(0, "DELETE ERROR", "Error deleting profile at " + profileId);
-		}
 		return temp;
 	}
 
