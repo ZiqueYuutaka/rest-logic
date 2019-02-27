@@ -11,4 +11,10 @@ public interface ProfileDao {
 	public Profile getProfileById(int id);
 	
 	public Profile getProfileByUserName(String userName);
+	
+	public Profile saveProfile(Profile profile);
+	
+	public Profile updateProfile(Profile profile);
+	
+	public Profile deleteProfile(int profileId);
 }

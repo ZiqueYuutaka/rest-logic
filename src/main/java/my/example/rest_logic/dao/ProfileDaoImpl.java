@@ -54,4 +54,58 @@ public class ProfileDaoImpl implements ProfileDao {
 		return null;
 	}
 
+	@Override
+	public Profile saveProfile(Profile profile) {
+		
+		//simulate automatic database id generation
+		if(profile.getId()==0){
+			profile.setId(profiles.size()+1);
+		}
+		
+		profiles.add(profile);
+		
+		return profile;
+	}
+
+	@Override
+	public Profile updateProfile(Profile profile) {
+		Profile temp=null;
+		for(Profile p: profiles){
+			if(p.getId() == profile.getId()){
+				p.setUserName(profile.getUserName());
+				p.setStatus(profile.getStatus());
+				temp = p;
+				break;
+			}
+		}
+		
+		if(temp == null){
+			//TODO throw custom exception about update error
+			temp = new Profile(0, "UPDATE ERROR", "Error updating profile " + profile);
+		}
+
+		return temp;
+	}
+
+	@Override
+	public Profile deleteProfile(int profileId) {
+		Profile temp=null;
+		for(Profile p: profiles){
+			if(p.getId() == profileId){
+				System.out.println("===>>>profile to delete: " + p);
+				String username = p.getUserName();
+				p.setUserName("DELETED USER");
+				p.setStatus(username + " successfully deleted");
+				temp = p;
+				break;
+			}
+		}
+		
+		if(temp == null){
+			//TODO throw custom exception about update error
+			temp = new Profile(0, "DELETE ERROR", "Error deleting profile at " + profileId);
+		}
+		return temp;
+	}
+
 }

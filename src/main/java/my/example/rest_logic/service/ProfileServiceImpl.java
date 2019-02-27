@@ -32,4 +32,21 @@ public class ProfileServiceImpl implements ProfileService {
 		return profileDao.getProfileByUserName(userName);
 	}
 
+	@Override
+	public Profile saveProfile(Profile profile) {
+		profile.setId(0);
+		return profileDao.saveProfile(profile);
+	}
+
+	@Override
+	public Profile updateProfile(Profile profile) {
+		return profileDao.updateProfile(profile);
+	}
+
+	@Override
+	public Profile deleteProfile(int profileId) {
+		
+		return profileDao.deleteProfile(profileId);
+	}
+
 }
